@@ -1,0 +1,4 @@
+# Comandos importantes
+
+# Convertir .ui a .py
+pyuic5 -x demo.ui -o probar.py

@@ -10,6 +10,18 @@
     <height>134</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>294</width>
+    <height>134</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>294</width>
+    <height>134</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Iniciar</string>
   </property>
@@ -35,7 +47,7 @@
      <x>10</x>
      <y>10</y>
      <width>271</width>
-     <height>76</height>
+     <height>84</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">

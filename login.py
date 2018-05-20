@@ -75,7 +75,7 @@ class Ui_Dialog(object):
         cursor = conn.cursor()
 
         sql = "SELECT count(id) FROM usuarios where nombre=? and contrasena=?"
-        cursor.execute(sql, [(self.nombreUsuario.text()),(self.nombreUsuario.text())])
+        cursor.execute(sql, [(self.nombreUsuario.text()),(self.contrasena.text())])
 
         # print (cursor.fetchone())
         print("test")
