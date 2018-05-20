@@ -74,11 +74,8 @@ class Ui_Dialog(object):
         conn = sqlite3.connect("basedatos.db")
         cursor = conn.cursor()
 
-        sql = "SELECT count(id) FROM usuarios where nombre=? and contrasena=?"
+        sql = "SELECT count(id) FROM usuarios where nombre=? and contrasena=? and activo=1"
         cursor.execute(sql, [(self.nombreUsuario.text()),(self.contrasena.text())])
-
-        # print (cursor.fetchone())
-        print("test")
 
         if cursor.fetchone()[0] == 1:
             self.window=QtWidgets.QMainWindow()
