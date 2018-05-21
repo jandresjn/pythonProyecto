@@ -7,8 +7,15 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from usuariosInterfaz import *
 class Ui_MainWindow(object):
+
+    def openWindow(self,new_Window,MainWindow):
+        self.window = QtWidgets.QWidget()
+        new_Window.setupUi(self.window)
+        MainWindow.hide()
+        self.window.show()
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(175, 164)
@@ -23,6 +30,10 @@ class Ui_MainWindow(object):
         self.boton_usuarios = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.boton_usuarios.setObjectName("boton_usuarios")
         self.verticalLayout.addWidget(self.boton_usuarios)
+        # Se agrega la función de abrir ventana cuando se presiona el botón de usuarios...
+        self.usuariosInterfaz= Ui_Form()
+        self.boton_usuarios.clicked.connect(lambda: self.openWindow(self.usuariosInterfaz,MainWindow))
+
         self.boton_productos = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.boton_productos.setObjectName("boton_productos")
         self.verticalLayout.addWidget(self.boton_productos)
@@ -61,4 +72,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
