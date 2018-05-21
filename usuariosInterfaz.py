@@ -42,10 +42,10 @@ class Ui_Form(object):
         self.tableWidget.blockSignals(True)
 
         self.tableWidget.insertRow( filasTabla )
-        self.tableWidget.setItem( filasTabla-1, 0, QtWidgets.QTableWidgetItem(id))
-        self.tableWidget.setItem( filasTabla-1, 1, QtWidgets.QTableWidgetItem(self.lineEdit.text()))
-        self.tableWidget.setItem( filasTabla-1, 2, QtWidgets.QTableWidgetItem(self.lineEdit_2.text()))
-        self.tableWidget.setCellWidget( filasTabla-1, 3, boton)
+        self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(id))
+        self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit.text()))
+        self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_2.text()))
+        self.tableWidget.setCellWidget( filasTabla, 3, boton)
 
         self.tableWidget.blockSignals(False)
         self.lineEdit.clear()
