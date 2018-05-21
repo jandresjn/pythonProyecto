@@ -36,10 +36,13 @@ class Ui_Form(object):
         boton.setText('Borrar')
         boton.clicked.connect(self.borrarUsuario)
 
+        id = QtWidgets.QTableWidgetItem(str(idUsuario))
+        id.setFlags(id.flags()  & ~Qt.ItemIsEditable)
+
         self.tableWidget.blockSignals(True)
 
         self.tableWidget.insertRow( filasTabla )
-        self.tableWidget.setItem( filasTabla-1, 0, QtWidgets.QTableWidgetItem(str(idUsuario)))
+        self.tableWidget.setItem( filasTabla-1, 0, QtWidgets.QTableWidgetItem(id))
         self.tableWidget.setItem( filasTabla-1, 1, QtWidgets.QTableWidgetItem(self.lineEdit.text()))
         self.tableWidget.setItem( filasTabla-1, 2, QtWidgets.QTableWidgetItem(self.lineEdit_2.text()))
         self.tableWidget.setCellWidget( filasTabla-1, 3, boton)
