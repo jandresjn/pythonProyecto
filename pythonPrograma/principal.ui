@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>359</width>
+    <height>270</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>359</width>
+    <height>270</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>359</width>
+    <height>270</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Menú Principal</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="boton_usuarios">
+        <property name="text">
+         <string>Usuarios</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="boton_productos">
+        <property name="text">
+         <string>Productos</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="boton_clientes">
+        <property name="text">
+         <string>Clientes</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="boton_servicios">
+        <property name="text">
+         <string>Servicios</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>359</width>
+     <height>19</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
