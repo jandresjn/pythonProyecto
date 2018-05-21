@@ -12,6 +12,7 @@ from PyQt5.QtCore import Qt
 import sqlite3
 
 class Ui_Form(object):
+
     def actualizarUsuario(self, fila):
         print("actualiza usuario")
         id = self.tableWidget.item(fila,0).text()
@@ -37,6 +38,12 @@ class Ui_Form(object):
         )
         conn.commit()
 
+    def borrarDatos(self): # Le puse borrarDatos por que ps ya usa acá lo que necesite para borrar la fila en la bd.
+        item = self.tableWidget
+        ArregloBotonClicked=QtWidgets.qApp.focusWidget()
+        index = item.indexAt(ArregloBotonClicked.pos())
+        if index.isValid():
+            print (index.row(), index.column())
 
 
     def cargarDatos(self):
@@ -62,6 +69,8 @@ class Ui_Form(object):
             item.setItem(inx, 1,QtWidgets.QTableWidgetItem(str(row[1])))
             item.setItem(inx, 2,QtWidgets.QTableWidgetItem(str(row[2])))
             item.setCellWidget(inx, 3, self.arregloBotones[int(inx)])
+            self.arregloBotones[inx].clicked.connect(self.borrarDatos)
+
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
