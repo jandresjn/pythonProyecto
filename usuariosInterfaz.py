@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
 # from PyQt5.QtCore import Qt
 import sqlite3
 
@@ -56,7 +57,8 @@ class Ui_Form(object):
             inx = rows.index(row)
             item.insertRow(inx)
             a = QtWidgets.QTableWidgetItem(str(row[0]))
-            item.setItem(inx, 0, a.setFlags(a.flags()))
+            a.setFlags(a.flags()  & ~Qt.ItemIsEditable)
+            item.setItem(inx, 0, a)
             item.setItem(inx, 1,QtWidgets.QTableWidgetItem(str(row[1])))
             item.setItem(inx, 2,QtWidgets.QTableWidgetItem(str(row[2])))
             item.setCellWidget(inx, 3, self.arregloBotones[int(inx)])
