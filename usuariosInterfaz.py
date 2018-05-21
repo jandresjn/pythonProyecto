@@ -13,21 +13,51 @@ import sqlite3
 
 class Ui_Form(object):
 
-    def actualizarUsuario(self, fila):
-        print("actualiza usuario")
-        id = self.tableWidget.item(fila,0).text()
-        nombre = self.tableWidget.item(fila,1).text()
-        contrasena= self.tableWidget.item(fila,2).text()
-        print(id)
-        print(nombre)
-        print(contrasena)
-        # self.tableWidget.row(self.tableWidget)
-        # print(self.tableWidget.row())
-
+    def crearUsuario(self):
+        print("crearUsuario")
 
         conn = sqlite3.connect("basedatos.db")
         cursor = conn.cursor()
+        sql = "INSERT INTO usuarios(nombre,contrasena) VALUES (?,?)"
+        cursor.execute(sql,
+            [
+                (self.lineEdit.text()),
+                (self.lineEdit_2.text()),
+            ]
+        )
+        conn.commit()
 
+        idUsuario = cursor.lastrowid
+        print(idUsuario)
+
+        filasTabla = self.tableWidget.rowCount()
+
+        boton = QtWidgets.QPushButton()
+        boton.setText('Borrar')
+        boton.clicked.connect(self.borrarUsuario)
+
+        self.tableWidget.blockSignals(True)
+
+        self.tableWidget.insertRow( filasTabla )
+        self.tableWidget.setItem( filasTabla-1, 0, QtWidgets.QTableWidgetItem(str(idUsuario)))
+        self.tableWidget.setItem( filasTabla-1, 1, QtWidgets.QTableWidgetItem(self.lineEdit.text()))
+        self.tableWidget.setItem( filasTabla-1, 2, QtWidgets.QTableWidgetItem(self.lineEdit_2.text()))
+        self.tableWidget.setCellWidget( filasTabla-1, 3, boton)
+
+        self.tableWidget.blockSignals(False)
+        self.lineEdit.clear()
+        self.lineEdit_2.clear()
+        print("termina")
+
+
+    def actualizarUsuario(self, fila):
+        print("actualizarUsuario")
+        id = self.tableWidget.item(fila,0).text()
+        nombre = self.tableWidget.item(fila,1).text()
+        contrasena= self.tableWidget.item(fila,2).text()
+
+        conn = sqlite3.connect("basedatos.db")
+        cursor = conn.cursor()
         sql = "UPDATE usuarios SET nombre=?, contrasena=? WHERE _rowid_=?"
         cursor.execute(sql,
             [
@@ -38,41 +68,49 @@ class Ui_Form(object):
         )
         conn.commit()
 
-    def borrarDatos(self): # Le puse borrarDatos por que ps ya usa acá lo que necesite para borrar la fila en la bd.
-        item = self.tableWidget
+    def borrarUsuario(self):
+        print("borrarUsuario")
         ArregloBotonClicked=QtWidgets.qApp.focusWidget()
-        index = item.indexAt(ArregloBotonClicked.pos())
+        index = self.tableWidget.indexAt(ArregloBotonClicked.pos())
         if index.isValid():
-            print (index.row(), index.column())
+            id = self.tableWidget.item(index.row(),0).text()
+
+            conn = sqlite3.connect("basedatos.db")
+            cursor = conn.cursor()
+            sql = "UPDATE usuarios SET activo=0 WHERE _rowid_=?"
+            cursor.execute(sql, [ (id) ] )
+            conn.commit()
+            self.tableWidget.removeRow(index.row())
 
 
     def cargarDatos(self):
+        print("cargarDatos")
         self.arregloBotones=[]
 
         conn = sqlite3.connect("basedatos.db")
         cursor = conn.cursor()
         cursor.execute('SELECT id, nombre, contrasena FROM usuarios WHERE activo = 1')
-        item = self.tableWidget
-        item.setRowCount(0)
+        self.tableWidget.setRowCount(0)
         rows = cursor.fetchall()
 
         for count in range(len(rows)):
-            self.arregloBotones.append(QtWidgets.QPushButton(item))
+            self.arregloBotones.append(QtWidgets.QPushButton(self.tableWidget))
             self.arregloBotones[count].setText('Borrar')
 
         for row in rows:
             inx = rows.index(row)
-            item.insertRow(inx)
+            self.tableWidget.insertRow(inx)
             a = QtWidgets.QTableWidgetItem(str(row[0]))
             a.setFlags(a.flags()  & ~Qt.ItemIsEditable)
-            item.setItem(inx, 0, a)
-            item.setItem(inx, 1,QtWidgets.QTableWidgetItem(str(row[1])))
-            item.setItem(inx, 2,QtWidgets.QTableWidgetItem(str(row[2])))
-            item.setCellWidget(inx, 3, self.arregloBotones[int(inx)])
-            self.arregloBotones[inx].clicked.connect(self.borrarDatos)
+            self.tableWidget.setItem(inx, 0, a)
+            self.tableWidget.setItem(inx, 1,QtWidgets.QTableWidgetItem(str(row[1])))
+            self.tableWidget.setItem(inx, 2,QtWidgets.QTableWidgetItem(str(row[2])))
+            self.tableWidget.setCellWidget(inx, 3, self.arregloBotones[int(inx)])
+            self.arregloBotones[inx].clicked.connect(self.borrarUsuario)
 
 
     def setupUi(self, Form):
+        print("setupUi")
         Form.setObjectName("Form")
         Form.resize(450, 534)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
@@ -126,6 +164,8 @@ class Ui_Form(object):
         self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+        spacerItem = QtWidgets.QSpacerItem(20, 16, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        self.verticalLayout.addItem(spacerItem)
         self.pushButton = QtWidgets.QPushButton(Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -167,11 +207,12 @@ class Ui_Form(object):
         self.gridLayout.addWidget(self.tableWidget, 1, 0, 1, 1, QtCore.Qt.AlignHCenter)
 
         self.retranslateUi(Form)
-        # self.tableWidget.cellChanged['int','int'].connect(self.tableWidget.clear)
         self.tableWidget.cellChanged['int','int'].connect(self.actualizarUsuario)
+        self.pushButton.clicked.connect(self.crearUsuario)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
+        print("retranslateUi")
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Modo Administrador"))
         self.label.setText(_translate("Form", "Nombre"))
