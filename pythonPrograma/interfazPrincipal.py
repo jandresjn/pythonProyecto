@@ -8,19 +8,21 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from usuariosInterfaz import *
-from productos import *
-from servicios import *
-from clientes import *
+from interfazProductos import *
+from interfazServicios import *
+from interfazClientes import *
 
 class Ui_MainWindow(object):
 
     def openWindow(self,new_Window,MainWindow):
         self.window = QtWidgets.QWidget()
         new_Window.setupUi(self.window)
-        MainWindow.hide()
+        # MainWindow.hide()
         self.window.show()
 
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow,usuarioActual):
+        self.usuarioActual=usuarioActual
+        print(self.usuarioActual.nombreUsuario)
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(359, 270)
         MainWindow.setMinimumSize(QtCore.QSize(359, 270))
@@ -31,12 +33,13 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.boton_usuarios = QtWidgets.QPushButton(self.centralwidget)
-        self.boton_usuarios.setObjectName("boton_usuarios")
-        self.verticalLayout.addWidget(self.boton_usuarios)
-        # Se agrega la función de abrir ventana cuando se presiona el botón de usuarios...
-        self.usuariosInterfaz= Ui_Form()
-        self.boton_usuarios.clicked.connect(lambda: self.openWindow(self.usuariosInterfaz,MainWindow))
+        if (self.usuarioActual.id==1):
+            self.boton_usuarios = QtWidgets.QPushButton(self.centralwidget)
+            self.boton_usuarios.setObjectName("boton_usuarios")
+            self.verticalLayout.addWidget(self.boton_usuarios)
+            # Se agrega la función de abrir ventana cuando se presiona el botón de usuarios...
+            self.usuariosInterfaz= Ui_Form()
+            self.boton_usuarios.clicked.connect(lambda: self.openWindow(self.usuariosInterfaz,MainWindow))
 
         self.boton_productos = QtWidgets.QPushButton(self.centralwidget)
         self.boton_productos.setObjectName("boton_productos")
@@ -72,7 +75,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Menú Principal"))
-        self.boton_usuarios.setText(_translate("MainWindow", "Usuarios"))
+        if (self.usuarioActual.id==1):
+            self.boton_usuarios.setText(_translate("MainWindow", "Usuarios"))
         self.boton_productos.setText(_translate("MainWindow", "Productos"))
         self.boton_clientes.setText(_translate("MainWindow", "Clientes"))
         self.boton_servicios.setText(_translate("MainWindow", "Servicios"))

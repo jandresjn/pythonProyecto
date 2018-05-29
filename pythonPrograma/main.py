@@ -7,12 +7,14 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from principal import *
+from interfazPrincipal import *
 import sqlite3
+from Usuario import Usuario
 
 class Ui_Dialog(object):
 
     def setupUi(self, Dialog):
+        self.usuarioActual=Usuario()
         Dialog.setObjectName("Dialog")
         Dialog.resize(294, 134)
         Dialog.setMinimumSize(QtCore.QSize(294, 134))
@@ -74,20 +76,35 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Contraseña:"))
 
     def ingresar(self):
-        conn = sqlite3.connect("basedatos.db")
-        cursor = conn.cursor()
+        # conn = sqlite3.connect("basedatos.db")
+        # cursor = conn.cursor()
+        #
+        # sql = "SELECT id FROM usuarios where nombre=? and contrasena=? and activo=1"
+        # cursor.execute(sql, [(self.nombreUsuario.text()),(self.contrasena.text())])
+        # print("id: ")
+        # id=cursor.fetchone()
 
-        sql = "SELECT count(id) FROM usuarios where nombre=? and contrasena=? and activo=1"
-        cursor.execute(sql, [(self.nombreUsuario.text()),(self.contrasena.text())])
+        # print(cursor.fetchone()[0])
+        # if(id is not None):
+        #     print(id[0])
+        #     self.window=QtWidgets.QMainWindow()
+        #     self.ui=Ui_MainWindow()
+        #     self.ui.setupUi(self.window)
+        #     self.window.show()
+        #     Dialog.close()
+        # else:
+        #     self.label_3.setText("Nombre o contraseña errada")
 
-        if cursor.fetchone()[0] == 1:
+        existeUsuario=self.usuarioActual.buscarUsuario(self.nombreUsuario.text(),self.contrasena.text())
+        if existeUsuario:
             self.window=QtWidgets.QMainWindow()
             self.ui=Ui_MainWindow()
-            self.ui.setupUi(self.window)
+            self.ui.setupUi(self.window,self.usuarioActual)
             self.window.show()
             Dialog.close()
         else:
             self.label_3.setText("Nombre o contraseña errada")
+
 
 
 if __name__ == "__main__":

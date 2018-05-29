@@ -8,27 +8,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
+from Usuario import Usuario
 # from PyQt5.QtCore import Qt
 import sqlite3
 
 class Ui_Form(object):
 
     def crearUsuario(self):
-        print("crearUsuario")
-
-        conn = sqlite3.connect("basedatos.db")
-        cursor = conn.cursor()
-        sql = "INSERT INTO usuarios(nombre,contrasena) VALUES (?,?)"
-        cursor.execute(sql,
-            [
-                (self.lineEdit.text()),
-                (self.lineEdit_2.text()),
-            ]
-        )
-        conn.commit()
-
-        idUsuario = cursor.lastrowid
-        print(idUsuario)
+        nuevoUsuario=Usuario(None,self.lineEdit.text(),self.lineEdit_2.text())
+        nuevoUsuario.crearUsuario()
+        idUsuario=nuevoUsuario.id
 
         filasTabla = self.tableWidget.rowCount()
 
@@ -53,20 +42,11 @@ class Ui_Form(object):
     def actualizarUsuario(self, fila):
         print("actualizarUsuario")
         id = self.tableWidget.item(fila,0).text()
+        usuarioActual=Usuario(id,None,None)
         nombre = self.tableWidget.item(fila,1).text()
         contrasena= self.tableWidget.item(fila,2).text()
+        usuarioActual.actualizarUsuario(nombre,contrasena)
 
-        conn = sqlite3.connect("basedatos.db")
-        cursor = conn.cursor()
-        sql = "UPDATE usuarios SET nombre=?, contrasena=? WHERE _rowid_=?"
-        cursor.execute(sql,
-            [
-                (nombre),
-                (contrasena),
-                (id)
-            ]
-        )
-        conn.commit()
 
     def borrarUsuario(self):
         print("borrarUsuario")
