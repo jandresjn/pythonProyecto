@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sqlite3
-from BaseDatos import BaseDatos
+from paquetePrincipal.BaseDatos import BaseDatos
+import os
 class Usuario:
     def __init__(self,id=None,nombreUsuario=None,contrasena=None):
         self.id=id
@@ -14,8 +15,9 @@ class Usuario:
         else: self.activo=0
 
     def conectarBD(self):
-        self.conn = sqlite3.connect("basedatos.db")
+        self.conn = sqlite3.connect("paquetePrincipal/basedatos.db")
         self.cursor = self.conn.cursor()
+        # self.conn,self.cursor=self.bd.conectarBD()
 
     def generaUsuarioConId(self):
         # sql = "SELECT nombre, contrasena FROM usuarios where id=? and activo=1"
@@ -35,6 +37,10 @@ class Usuario:
 
 
     def buscarUsuario(self,nombre,contrasena):
+        # print("---------------------------")
+        # cwd = os.getcwd()
+        # print(cwd)
+
         # id=None
         tabla="usuarios"
         campos=["nombre","contrasena","activo"]

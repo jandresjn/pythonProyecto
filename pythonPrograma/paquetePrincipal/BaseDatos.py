@@ -3,13 +3,14 @@ import sqlite3
 
 class BaseDatos:
 
-    def __init__(self,baseDatos ="basedatos.db"):
+    def __init__(self,baseDatos ="paquetePrincipal/basedatos.db"):
         self.baseDatos=baseDatos
         self.conectarBD()
 
     def conectarBD(self):
         self.conn = sqlite3.connect(self.baseDatos)
         self.cursor = self.conn.cursor()
+        # return self.conn,self.cursor
 
     def cargarDatosValorCampo(self,tabla,camposSelect):
         sql= "SELECT "+ str(camposSelect[0])

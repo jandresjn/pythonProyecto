@@ -7,11 +7,11 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from usuariosInterfaz import *
-from interfazProductos import *
-from interfazServicios import *
-from interfazClientes import *
-from interfazVentas import *
+from interfaces.usuariosInterfaz import *
+from interfaces.interfazProductos import *
+from interfaces.interfazServicios import *
+from interfaces.interfazClientes import *
+from interfaces.interfazVentas import *
 
 class Ui_MainWindow(object):
 

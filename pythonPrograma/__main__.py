@@ -7,9 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from interfazPrincipal import *
+from interfaces.interfazPrincipal import *
 import sqlite3
-from Usuario import Usuario
+from paquetePrincipal.Usuario import Usuario
 
 class Ui_Dialog(object):
 

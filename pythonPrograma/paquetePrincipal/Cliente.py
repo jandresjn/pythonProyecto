@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sqlite3
-from BaseDatos import BaseDatos
+from paquetePrincipal.BaseDatos import BaseDatos
 
 class Cliente:
 

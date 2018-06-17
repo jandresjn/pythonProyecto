@@ -8,8 +8,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
-from BaseDatos import BaseDatos
-from Cliente import Cliente
+from paquetePrincipal.BaseDatos import BaseDatos
+from paquetePrincipal.Cliente import Cliente
 import sqlite3
 class Ui_ventasObject(object):
     def vincularCliente(self):
@@ -24,7 +24,7 @@ class Ui_ventasObject(object):
             self.habilitarBotonesPrincipales()
             self.lineEdit_clienteActivo.setEnabled(False)
             self.pushButton_vincularCliente.setEnabled(False)
-            self.label_nombre_clienteActivo.setText(self.clienteActual.nombreUsuario)
+            self.label_mostrar_nombreClienteActivo.setText(self.clienteActual.nombreUsuario)
         else:
             palette = QtGui.QPalette()
             brush = QtGui.QBrush(QtGui.QColor(170, 0, 0))
