@@ -15,7 +15,7 @@ class Usuario:
         else: self.activo=0
 
     def conectarBD(self):
-        self.conn = sqlite3.connect("paquetePrincipal/basedatos.db")
+        self.conn = sqlite3.connect("basedatos.db")
         self.cursor = self.conn.cursor()
         # self.conn,self.cursor=self.bd.conectarBD()
 
@@ -40,6 +40,7 @@ class Usuario:
         # print("---------------------------")
         # cwd = os.getcwd()
         # print(cwd)
+        # print("---------------------------")
 
         # id=None
         tabla="usuarios"

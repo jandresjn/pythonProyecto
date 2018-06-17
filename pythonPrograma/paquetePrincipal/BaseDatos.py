@@ -3,7 +3,7 @@ import sqlite3
 
 class BaseDatos:
 
-    def __init__(self,baseDatos ="paquetePrincipal/basedatos.db"):
+    def __init__(self,baseDatos ="basedatos.db"):
         self.baseDatos=baseDatos
         self.conectarBD()
 
