@@ -11,11 +11,28 @@ class BaseDatos:
         self.conn = sqlite3.connect(self.baseDatos)
         self.cursor = self.conn.cursor()
 
+    def cargarDatosValorCampo(self,tabla,camposSelect):
+        sql= "SELECT "+ str(camposSelect[0])
+        sql2= " FROM "+str(tabla)+" WHERE activo = 1"
+        if (len(camposSelect) > 1):
+            for index in range(len(camposSelect)-1):
+                sql += ", "+ str(camposSelect[index+1])
+
+        sql+=sql2
+        self.cursor.execute(sql)
+        rows = self.cursor.fetchall()
+        return rows
+
+    def borrarValorCampo(self,tabla,id):
+        sql="UPDATE "+ str(tabla) + " SET activo=0 WHERE _rowid_=?"
+        self.cursor.execute(sql, [ (id) ] )
+        self.conn.commit()
+
     def actualizarValorCampo(self,tabla,campos,valorCampos):
         sql="UPDATE "+ str(tabla)+ " SET "+ str(campos[0])+"=?"
         sql2= " WHERE _rowid_=?"
-        if (len(campos) > 2): # EL ÚLTIMO VALOR CAMPO ES EL ID SIEMPRE...
-            for index in range(len(campos)-2):
+        if (len(campos) > 1): # EL ÚLTIMO VALOR CAMPO ES EL ID SIEMPRE...
+            for index in range(len(campos)-1):
                 sql+=", "+str(campos[index+1])+"=?"
         sql+=sql2
         print(sql)

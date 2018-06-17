@@ -11,6 +11,7 @@ from usuariosInterfaz import *
 from interfazProductos import *
 from interfazServicios import *
 from interfazClientes import *
+from interfazVentas import *
 
 class Ui_MainWindow(object):
 
@@ -60,6 +61,14 @@ class Ui_MainWindow(object):
         # Se agrega la función de abrir ventana cuando se presiona el botón de usuarios...
         self.serviciosInterfaz= Ui_serviciosForm()
         self.boton_servicios.clicked.connect(lambda: self.openWindow(self.serviciosInterfaz,MainWindow))
+
+        # Se agrega botón Ventas y función abrir ventana...
+        self.boton_ventas = QtWidgets.QPushButton(self.centralwidget)
+        self.boton_ventas.setObjectName("boton_ventas")
+        self.verticalLayout.addWidget(self.boton_ventas)
+        self.ventasInterfaz= Ui_ventasObject()
+        self.boton_ventas.clicked.connect(lambda: self.openWindow(self.ventasInterfaz,MainWindow))
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 359, 19))
@@ -80,6 +89,7 @@ class Ui_MainWindow(object):
         self.boton_productos.setText(_translate("MainWindow", "Productos"))
         self.boton_clientes.setText(_translate("MainWindow", "Clientes"))
         self.boton_servicios.setText(_translate("MainWindow", "Servicios"))
+        self.boton_ventas.setText(_translate("MainWindow", "Ventas"))
 
 
 if __name__ == "__main__":

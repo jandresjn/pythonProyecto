@@ -9,6 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from Usuario import Usuario
+from BaseDatos import BaseDatos
 # from PyQt5.QtCore import Qt
 import sqlite3
 
@@ -54,24 +55,27 @@ class Ui_Form(object):
         index = self.tableWidget.indexAt(ArregloBotonClicked.pos())
         if index.isValid():
             id = self.tableWidget.item(index.row(),0).text()
-
-            conn = sqlite3.connect("basedatos.db")
-            cursor = conn.cursor()
-            sql = "UPDATE usuarios SET activo=0 WHERE _rowid_=?"
-            cursor.execute(sql, [ (id) ] )
-            conn.commit()
+            usuarioActual=Usuario(id,None,None)
+            usuarioActual.borrarUsuario()
+            # conn = sqlite3.connect("basedatos.db")
+            # cursor = conn.cursor()
+            # sql = "UPDATE usuarios SET activo=0 WHERE _rowid_=?"
+            # cursor.execute(sql, [ (id) ] )
+            # conn.commit()
             self.tableWidget.removeRow(index.row())
 
 
     def cargarDatos(self):
         print("cargarDatos")
         self.arregloBotones=[]
-
-        conn = sqlite3.connect("basedatos.db")
-        cursor = conn.cursor()
-        cursor.execute('SELECT id, nombre, contrasena FROM usuarios WHERE activo = 1')
+        tabla="usuarios"
+        camposSelect=["id","nombre","contrasena"]
         self.tableWidget.setRowCount(0)
-        rows = cursor.fetchall()
+        rows=self.bd.cargarDatosValorCampo(tabla,camposSelect)
+        # conn = sqlite3.connect("basedatos.db")
+        # cursor = conn.cursor()
+        # cursor.execute('SELECT id, nombre, contrasena FROM usuarios WHERE activo = 1')
+        # rows = cursor.fetchall()
 
         for count in range(len(rows)):
             self.arregloBotones.append(QtWidgets.QPushButton(self.tableWidget))
@@ -90,6 +94,7 @@ class Ui_Form(object):
 
 
     def setupUi(self, Form):
+        self.bd=BaseDatos()
         print("setupUi")
         Form.setObjectName("Form")
         Form.resize(450, 534)

@@ -52,6 +52,11 @@ class Usuario:
             return True
         else:
             return False
+
+    def borrarUsuario(self):
+        tabla="usuarios"
+        self.bd.borrarValorCampo(tabla,self.id)
+
     def crearUsuario(self):
         tabla="usuarios"
         campos=["nombre","contrasena"]

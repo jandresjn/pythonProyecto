@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ventasObject</class>
+ <widget class="QWidget" name="ventasObject">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Ventas</string>
+  </property>
+  <widget class="QPushButton" name="pushButton_vincularCliente">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>90</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vincular Cliente</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_ClienteActivo">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>0</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cliente Activo:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_id_clienteActivo">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>30</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Id: </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_nombre_clienteActivo">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>70</y>
+     <width>57</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nombre: </string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_clienteActivo">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>30</y>
+     <width>151</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_errorClienteActivo">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>130</y>
+     <width>201</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>170</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>170</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>101</red>
+         <green>112</green>
+         <blue>117</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="text">
+    <string>VINCULE CLIENTE EXISTENTE</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_mostrar_nombreClienteActivo">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>70</y>
+     <width>151</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_buscadorItems">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>10</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Buscador de items:</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_buscarItems">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>90</y>
+     <width>451</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget_itemVentas">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>350</y>
+     <width>711</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Codigo</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Categoria</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Precio</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Cantidad</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>IVA</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Total sin IVA</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Total + IVA</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton_confirmarVenta">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>550</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Confirmar Venta</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_cancelarVenta">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>550</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancelar Venta</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_infoProducto">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>190</y>
+     <width>211</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Registro e Informacion de Producto:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_agregarItemVenta">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>280</y>
+     <width>191</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Agregar Item</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_codigo_item">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>220</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Codigo* </string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_codigo_Item">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>240</y>
+     <width>81</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_descripcion">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>280</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Descripcion</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_descripcion_buscar">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>40</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Descripcion</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_codigo_buscar">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>40</y>
+     <width>57</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Codigo</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox_cantidadItem">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>300</y>
+     <width>41</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>1</number>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_categoria_buscar">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>60</y>
+     <width>141</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Frutas</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Carnes</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_categoria_buscar">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>40</y>
+     <width>57</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Categorias</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_inventarioDisp">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>280</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Inv Disponible</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_categoria_item">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>280</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Categoria</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_itemDescuento">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>240</y>
+     <width>141</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Sin Descuento</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Descuento 10%</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_cantidadItem">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>280</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cantidad*</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_descuento">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>220</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Descuento</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_mostrarDescripcionItem">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>300</y>
+     <width>113</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_mostrarInventarioDisp">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>300</y>
+     <width>31</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_mostrarCategoria">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>300</y>
+     <width>113</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_precio">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>220</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Precio Unitario</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_mostrarPrecioUnitario">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>240</y>
+     <width>113</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_infoProducto_2">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>190</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Seleccione Descuento y Medio de Pago para toda la venta :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_medioPago">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>220</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Medio de Pago</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_item_medioPago">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>240</y>
+     <width>141</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Sin Descuento</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Descuento 10%</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_descripcion_buscar">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>60</y>
+     <width>113</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_codigo_buscar">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>60</y>
+     <width>113</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_errorCodigo">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>560</y>
+     <width>201</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>170</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>170</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>101</red>
+         <green>112</green>
+         <blue>117</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_total_desc">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>550</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TOTAL - DESC:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_mostrarTotalConDesc">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>540</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_IVA">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>280</y>
+     <width>41</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>IVA %</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox_IVA">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>300</y>
+     <width>41</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>19</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_buscar">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>30</y>
+     <width>71</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Buscar</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

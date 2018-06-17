@@ -7,9 +7,74 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
+from BaseDatos import BaseDatos
+from Cliente import Cliente
+import sqlite3
 
 class Ui_clientesForm(object):
+
+
+    def crearCliente(self):
+        nuevoCliente=Cliente(None,self.lineEdit_Nombre.text(),self.lineEdit_Documento.text())
+        nuevoCliente.crearCliente()
+        idCliente=nuevoCliente.id
+
+        filasTabla = self.tableWidget.rowCount()
+
+        boton = QtWidgets.QPushButton()
+        boton.setText('Borrar')
+        boton.clicked.connect(self.borrarCliente)
+
+        self.tableWidget.blockSignals(True)
+
+        self.tableWidget.insertRow( filasTabla )
+        self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(idCliente)))
+        self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit_Nombre.text()))
+        self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_Documento.text()))
+        self.tableWidget.setCellWidget( filasTabla, 3, boton)
+
+        self.tableWidget.blockSignals(False)
+        self.lineEdit_Nombre.clear()
+        self.lineEdit_Documento.clear()
+        print("termina")
+
+    def borrarCliente(self):
+        print("borrarCliente")
+        ArregloBotonClicked=QtWidgets.qApp.focusWidget()
+        index = self.tableWidget.indexAt(ArregloBotonClicked.pos())
+        if index.isValid():
+            id = self.tableWidget.item(index.row(),0).text()
+            clienteActual=Cliente(id,None,None)
+            clienteActual.borrarCliente()
+
+            self.tableWidget.removeRow(index.row())
+
+    def cargarDatos(self):
+        print("cargarDatos")
+        self.arregloBotones=[]
+        tabla="clientes"
+        camposSelect=["id","nombre","numero_documento"]
+        self.tableWidget.setRowCount(0)
+        rows=self.bd.cargarDatosValorCampo(tabla,camposSelect)
+
+        for count in range(len(rows)):
+            self.arregloBotones.append(QtWidgets.QPushButton(self.tableWidget))
+            self.arregloBotones[count].setText('Borrar')
+
+        for row in rows:
+            inx = rows.index(row)
+            self.tableWidget.insertRow(inx)
+            a = QtWidgets.QTableWidgetItem(str(row[0]))
+            a.setFlags(a.flags()  & ~Qt.ItemIsEditable)
+            self.tableWidget.setItem(inx, 0, a)
+            self.tableWidget.setItem(inx, 1,QtWidgets.QTableWidgetItem(str(row[1])))
+            self.tableWidget.setItem(inx, 2,QtWidgets.QTableWidgetItem(str(row[2])))
+            self.tableWidget.setCellWidget(inx, 3, self.arregloBotones[int(inx)])
+            self.arregloBotones[inx].clicked.connect(self.borrarCliente)
+
     def setupUi(self, clientesForm):
+        self.bd=BaseDatos()
         clientesForm.setObjectName("clientesForm")
         clientesForm.resize(500, 526)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
@@ -95,6 +160,11 @@ class Ui_clientesForm(object):
         self.tableWidget.setItem(0, 2, item)
         self.gridLayout.addWidget(self.tableWidget, 1, 0, 1, 1, QtCore.Qt.AlignHCenter)
 
+        self.tableWidget.blockSignals(True)
+        self.cargarDatos()
+        self.tableWidget.blockSignals(False)
+        self.btnAdd.clicked.connect(self.crearCliente)
+
         self.retranslateUi(clientesForm)
         QtCore.QMetaObject.connectSlotsByName(clientesForm)
 
@@ -125,4 +195,3 @@ if __name__ == "__main__":
     ui.setupUi(clientesForm)
     clientesForm.show()
     sys.exit(app.exec_())
-
