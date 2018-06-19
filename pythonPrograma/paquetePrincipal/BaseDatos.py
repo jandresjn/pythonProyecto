@@ -11,6 +11,17 @@ class BaseDatos:
         self.conn = sqlite3.connect(self.baseDatos)
         self.cursor = self.conn.cursor()
         # return self.conn,self.cursor
+    def buscarDatosLike(self,tabla,campos,valorCampos):
+        sql="SELECT * FROM " +str(tabla) + " WHERE "+str(campos[0])+" LIKE'%"+str(valorCampos[0])+"%'"
+        if (len(campos) > 1):
+            for index in range(len(campos)-1):
+                sql += " OR "+ str(campos[index+1])+ " LIKE'%" + str(valorCampos[index+1])+"%'"
+        print(sql)
+        self.cursor.execute(sql)
+        rows = self.cursor.fetchall()
+        print(rows)
+        return rows
+# select * from productos where codigo like'%fria%' OR nombre like  '%fria%'
 
     def cargarDatosValorCampo(self,tabla,camposSelect):
         sql= "SELECT "+ str(camposSelect[0])
@@ -111,7 +122,8 @@ class BaseDatos:
 # #
 # # ejemplo2=["nombre"]
 # # valorEj2=[-1,0,5]
-# bd=BaseDatos()
+# bd=BaseDatos("basedatos.db")
+# bd.buscarDatosLike("productos",["codigo","id_categoria"],["h","1"])
 # # bd.generarValorCampoConId("usuarios",["nombre"],["id"],[-1])
 # # bd.buscarValorCampo("usuarios",ejemplo2,valorEj2,"pedo")
 # # print("------------------------------------------")

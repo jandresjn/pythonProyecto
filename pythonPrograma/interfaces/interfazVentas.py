@@ -12,6 +12,25 @@ from paquetePrincipal.BaseDatos import BaseDatos
 from paquetePrincipal.Cliente import Cliente
 import sqlite3
 class Ui_ventasObject(object):
+
+    def buscarItem(self):
+        tabla="productos"
+        campos=["descripcion","codigo"]
+        valorCampos=[]
+        valorCampos=[self.lineEdit_descripcion_buscar.text(),self.lineEdit_codigo_buscar.text()]
+        print(valorCampos)
+        if (valorCampos[0] or valorCampos[1])  != "" :
+            if valorCampos[0] == "":
+                valorCampos[0]=" "
+            elif valorCampos[1] == "":
+                valorCampos[1]=" "
+
+            rows=self.bd.buscarDatosLike(tabla,campos,valorCampos)
+            self.listWidget_buscarItems.clear()
+            self.listWidget_buscarItems.addItem("(id, codigo, descripcion, precio, categoria)")
+            for row in rows :
+                self.listWidget_buscarItems.addItem(str(row))
+
     def vincularCliente(self):
         existeCliente=self.clienteActual.buscarClienteDoc(self.lineEdit_clienteActivo.text())
         if existeCliente:
@@ -43,6 +62,7 @@ class Ui_ventasObject(object):
         self.pushButton_confirmarVenta.setEnabled(True)
 
     def setupUi(self, ventasObject):
+        self.bd=BaseDatos()
         self.clienteActual=Cliente()
         ventasObject.setObjectName("ventasObject")
         ventasObject.resize(800, 600)
@@ -89,7 +109,7 @@ class Ui_ventasObject(object):
         self.listWidget_buscarItems.setGeometry(QtCore.QRect(70, 90, 451, 91))
         self.listWidget_buscarItems.setObjectName("listWidget_buscarItems")
         item = QtWidgets.QListWidgetItem()
-        self.listWidget_buscarItems.addItem(item)
+        # self.listWidget_buscarItems.addItem(item)
         self.tableWidget_itemVentas = QtWidgets.QTableWidget(ventasObject)
         self.tableWidget_itemVentas.setGeometry(QtCore.QRect(50, 350, 711, 171))
         self.tableWidget_itemVentas.setObjectName("tableWidget_itemVentas")
@@ -147,8 +167,8 @@ class Ui_ventasObject(object):
         self.comboBox_categoria_buscar = QtWidgets.QComboBox(ventasObject)
         self.comboBox_categoria_buscar.setGeometry(QtCore.QRect(300, 60, 141, 22))
         self.comboBox_categoria_buscar.setObjectName("comboBox_categoria_buscar")
-        self.comboBox_categoria_buscar.addItem("")
-        self.comboBox_categoria_buscar.addItem("")
+        # self.comboBox_categoria_buscar.addItem("")
+        # self.comboBox_categoria_buscar.addItem("")
         self.label_categoria_buscar = QtWidgets.QLabel(ventasObject)
         self.label_categoria_buscar.setGeometry(QtCore.QRect(320, 40, 57, 14))
         self.label_categoria_buscar.setObjectName("label_categoria_buscar")
@@ -254,6 +274,7 @@ class Ui_ventasObject(object):
         self.deshabilitarBotonesPrincipales()
         self.pushButton_cancelarVenta.clicked.connect(self.deshabilitarBotonesPrincipales)
         self.pushButton_vincularCliente.clicked.connect(self.vincularCliente)
+        self.pushButton_buscar.clicked.connect(self.buscarItem)
         self.retranslateUi(ventasObject)
         QtCore.QMetaObject.connectSlotsByName(ventasObject)
 
@@ -293,8 +314,8 @@ class Ui_ventasObject(object):
         self.label_descripcion.setText(_translate("ventasObject", "Descripcion"))
         self.label_descripcion_buscar.setText(_translate("ventasObject", "Descripcion"))
         self.label_codigo_buscar.setText(_translate("ventasObject", "Codigo"))
-        self.comboBox_categoria_buscar.setItemText(0, _translate("ventasObject", "Frutas"))
-        self.comboBox_categoria_buscar.setItemText(1, _translate("ventasObject", "Carnes"))
+        # self.comboBox_categoria_buscar.setItemText(0, _translate("ventasObject", "Frutas"))
+        # self.comboBox_categoria_buscar.setItemText(1, _translate("ventasObject", "Carnes"))
         self.label_categoria_buscar.setText(_translate("ventasObject", "Categorias"))
         self.label_inventarioDisp.setText(_translate("ventasObject", "Inv Disponible"))
         self.label_categoria_item.setText(_translate("ventasObject", "Categoria"))
