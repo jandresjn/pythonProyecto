@@ -9,12 +9,21 @@ class Venta:
         self.id_cliente=id_cliente
         self.id_usuario=id_usuario
         self.fecha=fecha
-        self.total=None
-        self.iva_total=None
+        self.total=0
+        self.iva_total=0
+        self.iva_total_desc=0
         self.items_venta=[]
+        self.descuento=None
         self.bd=BaseDatos()
         self.conectarBD()
 
     def conectarBD(self):
         self.conn = sqlite3.connect("basedatos.db")
         self.cursor = self.conn.cursor()
+    def clearAll(self):
+        self.id_cliente=None
+        self.total=0
+        self.iva_total=0
+        self.iva_total_desc=0
+        self.items_venta=[]
+        self.descuento=None

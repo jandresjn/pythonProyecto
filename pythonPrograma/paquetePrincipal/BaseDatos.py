@@ -11,6 +11,12 @@ class BaseDatos:
         self.conn = sqlite3.connect(self.baseDatos)
         self.cursor = self.conn.cursor()
         # return self.conn,self.cursor
+    def cargarTodo(self,tabla):
+        sql="SELECT * FROM "+ str(tabla)
+        self.cursor.execute(sql)
+        rows = self.cursor.fetchall()
+        print(rows)
+        return rows
     def buscarDatosLike(self,tabla,campos,valorCampos):
         sql="SELECT * FROM " +str(tabla) + " WHERE "+str(campos[0])+" LIKE'%"+str(valorCampos[0])+"%'"
         if (len(campos) > 1):
