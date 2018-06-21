@@ -8,9 +8,11 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from interfaces.usuariosInterfaz import *
-from interfaces.interfazProductos import *
+from interfaces.interfazProductosNew import *
 from interfaces.interfazClientes import *
+from interfaces.interfazProveedores import *
 from interfaces.interfazVentas import *
+from interfaces.interfazHistoricoVentas import *
 
 class Ui_MainWindow(object):
 
@@ -45,7 +47,7 @@ class Ui_MainWindow(object):
         self.boton_productos.setObjectName("boton_productos")
         self.verticalLayout.addWidget(self.boton_productos)
         # Se agrega la función de abrir ventana cuando se presiona el botón de usuarios...
-        self.productosInterfaz = Ui_productosForm()
+        self.productosInterfaz = Ui_interfazProductosNew()
         self.boton_productos.clicked.connect(lambda: self.openWindow(self.productosInterfaz,MainWindow))
         self.boton_clientes = QtWidgets.QPushButton(self.centralwidget)
         self.boton_clientes.setObjectName("boton_clientes")
@@ -60,13 +62,33 @@ class Ui_MainWindow(object):
         # Se agrega la función de abrir ventana cuando se presiona el botón de usuarios...
         # self.serviciosInterfaz= Ui_serviciosForm()
         # self.boton_servicios.clicked.connect(lambda: self.openWindow(self.serviciosInterfaz,MainWindow))
+        self.boton_proveedores = QtWidgets.QPushButton(self.centralwidget)
+        self.boton_proveedores.setObjectName("boton_proveedores")
+        self.verticalLayout.addWidget(self.boton_proveedores)
+        self.proveedorInterfaz= Ui_ProveedoresForm()
+        self.boton_proveedores.clicked.connect(lambda: self.openWindow(self.proveedorInterfaz,MainWindow))
 
-        # Se agrega botón Ventas y función abrir ventana...
+        self.boton_compras = QtWidgets.QPushButton(self.centralwidget)
+        self.boton_compras.setObjectName("boton_compras")
+        self.verticalLayout.addWidget(self.boton_compras)
+
+        self.boton_historicoCompras = QtWidgets.QPushButton(self.centralwidget)
+        self.boton_historicoCompras.setObjectName("boton_historicoCompras")
+        self.verticalLayout.addWidget(self.boton_historicoCompras)
+
         self.boton_ventas = QtWidgets.QPushButton(self.centralwidget)
         self.boton_ventas.setObjectName("boton_ventas")
         self.verticalLayout.addWidget(self.boton_ventas)
         self.ventasInterfaz= Ui_ventasObject()
         self.boton_ventas.clicked.connect(lambda: self.openWindow(self.ventasInterfaz,MainWindow))
+
+        self.boton_historicoVentas = QtWidgets.QPushButton(self.centralwidget)
+        self.boton_historicoVentas.setObjectName("boton_HistoricoVentas")
+        self.verticalLayout.addWidget(self.boton_historicoVentas)
+        self.hVentasInterfaz=Ui_historicoVentas()
+        self.boton_historicoVentas.clicked.connect(lambda: self.openWindow(self.hVentasInterfaz,MainWindow))
+
+        # Se agrega botón Ventas y función abrir ventana...
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -89,6 +111,11 @@ class Ui_MainWindow(object):
         self.boton_clientes.setText(_translate("MainWindow", "Clientes"))
         # self.boton_servicios.setText(_translate("MainWindow", "Servicios"))
         self.boton_ventas.setText(_translate("MainWindow", "Ventas"))
+        self.boton_historicoVentas.setText(_translate("MainWindow", "Histórico Ventas"))
+        self.boton_compras.setText(_translate("MainWindow", "Compras"))
+        self.boton_historicoCompras.setText(_translate("MainWindow", "Histórico Compras"))
+        self.boton_proveedores.setText(_translate("MainWindow", "Proveedores"))
+
 
 
 if __name__ == "__main__":

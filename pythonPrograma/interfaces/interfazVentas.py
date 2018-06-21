@@ -16,6 +16,14 @@ from datetime import datetime
 
 import sqlite3
 class Ui_ventasObject(object):
+    def confirmarVenta(self):
+        mpago=self.identificaMedioPago()
+        self.ventaActual.medioPago=mpago
+        if self.cantidadItems > 0:
+            self.ventaActual.guardarVenta()
+            self.resetearVenta()
+
+
     def calcularTotalesVenta(self):
         self.ventaActual.total=0
         self.ventaActual.iva_total=0
@@ -67,8 +75,8 @@ class Ui_ventasObject(object):
 
     def buscarInfoCodigo(self):
         tabla="productos"
-        campos=["codigo"]
-        tipoCampos=[-1]
+        campos=["codigo","activo"]
+        tipoCampos=[-1,1]
         if self.lineEdit_codigo_Item.text() != "":
             id_producto=self.bd.buscarValorCampo(tabla,campos,tipoCampos,[self.lineEdit_codigo_Item.text()])
             if id_producto is not None:
@@ -78,6 +86,7 @@ class Ui_ventasObject(object):
                 self.lineEdit_mostrarPrecioUnitario.setText(str(self.ventaActual.items_venta[self.cantidadItems].precio))
                 self.lineEdit_mostrarInventarioDisp.setText(str(self.ventaActual.items_venta[self.cantidadItems].inventario))
                 self.lineEdit_mostrarCategoria.setText(str(self.ventaActual.items_venta[self.cantidadItems].categoria))
+                self.spinBox_cantidadItem.setMaximum(self.ventaActual.items_venta[self.cantidadItems].inventario)
                 self.label_errorCodigo.setText("ITEM ENCONTRADO")
 
             else:
@@ -114,7 +123,7 @@ class Ui_ventasObject(object):
     def vincularCliente(self):
         existeCliente=self.clienteActual.buscarClienteDoc(self.lineEdit_clienteActivo.text())
         if existeCliente:
-            self.ventaActual.id=self.clienteActual.id
+            self.ventaActual.id_cliente=self.clienteActual.id
             palette = QtGui.QPalette()
             brush = QtGui.QBrush(QtGui.QColor(0, 170, 0))
             brush.setStyle(QtCore.Qt.SolidPattern)
@@ -205,6 +214,20 @@ class Ui_ventasObject(object):
         print(self.categorias)
         self.comboBox_categoria_buscar.addItems(self.categorias)
 
+    def getmediosPago(self):
+        rows=self.bd.cargarTodo("sistema_pagos")
+        for index in range(len(rows)):
+            self.medioPagos.append(str(rows[index][2]))
+            self.medioPagos_cod.append(str(rows[index][1]))
+        print("categorias")
+        print(self.medioPagos)
+        self.comboBox_item_medioPago.addItems(self.medioPagos)
+
+    def identificaMedioPago(self):
+        idx=self.comboBox_item_medioPago.currentIndex()
+        medioPago=self.medioPagos_cod[idx]
+        return medioPago
+
     def identificaCategoria(self):
         idx=self.comboBox_categoria_buscar.currentIndex()
         categoria=self.categoriasId[idx]
@@ -222,13 +245,15 @@ class Ui_ventasObject(object):
         self.categoriasId=[]
         self.descuentos_desc=[]
         self.descuentos_valor=[]
+        self.medioPagos=[]
+        self.medioPagos_cod=[]
         self.cantidadItems=0
         self.bd=BaseDatos()
         self.clienteActual=Cliente()
-        self.ventaActual=Venta()
+        self.ventaActual=Venta(id_usuario=usuarioActual.id)
         now = datetime.now()
-        self.ventaActual.date=str(now.year)+"/"+str(now.month)+"/"+str(now.day)
-        print(self.ventaActual.date)
+        self.ventaActual.fecha=str(now.year)+"/"+str(now.month)+"/"+str(now.day)
+        print(self.ventaActual.fecha)
 
         ventasObject.setObjectName("ventasObject")
         ventasObject.resize(800, 600)
@@ -340,6 +365,7 @@ class Ui_ventasObject(object):
         self.spinBox_cantidadItem.setGeometry(QtCore.QRect(490, 300, 41, 24))
         self.spinBox_cantidadItem.setProperty("value", 1)
         self.spinBox_cantidadItem.setObjectName("spinBox_cantidadItem")
+        self.spinBox_cantidadItem.setMinimum(1)
         self.comboBox_categoria_buscar = QtWidgets.QComboBox(ventasObject)
         self.comboBox_categoria_buscar.setGeometry(QtCore.QRect(300, 60, 141, 22))
         self.comboBox_categoria_buscar.setObjectName("comboBox_categoria_buscar")
@@ -453,8 +479,10 @@ class Ui_ventasObject(object):
         self.pushButton_buscar.clicked.connect(self.buscarItem)
         self.lineEdit_codigo_Item.returnPressed.connect(self.buscarInfoCodigo)
         self.pushButton_agregarItemVenta.clicked.connect(self.agregarItem)
+        self.pushButton_confirmarVenta.clicked.connect(self.confirmarVenta)
         self.getCategorias()
         self.getDescuentos()
+        self.getmediosPago()
         self.retranslateUi(ventasObject)
         QtCore.QMetaObject.connectSlotsByName(ventasObject)
 

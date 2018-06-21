@@ -11,6 +11,14 @@ class BaseDatos:
         self.conn = sqlite3.connect(self.baseDatos)
         self.cursor = self.conn.cursor()
         # return self.conn,self.cursor
+    def cargarTodoId(self,tabla,campo,valorCampo):
+        sql="SELECT * FROM "+ str(tabla)+" WHERE "+str(campo)+"=?"
+        self.cursor.execute(sql,[valorCampo])
+        rows = self.cursor.fetchall()
+        print(rows)
+        return rows
+
+
     def cargarTodo(self,tabla):
         sql="SELECT * FROM "+ str(tabla)
         self.cursor.execute(sql)

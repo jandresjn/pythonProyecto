@@ -7,8 +7,39 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
+from paquetePrincipal.BaseDatos import BaseDatos
+from paquetePrincipal.Cliente import Cliente
+from paquetePrincipal.Venta import Venta
+from paquetePrincipal.Producto import Producto
+from datetime import datetime
 
 class Ui_productosForm(object):
+
+    # def crearProducto(self):
+    #     nuevoProducto=Producto()
+    #     nuevoUsuario.crearUsuario()
+    #     idUsuario=nuevoUsuario.id
+    #
+    #     filasTabla = self.tableWidget.rowCount()
+    #
+    #     boton = QtWidgets.QPushButton()
+    #     boton.setText('Borrar')
+    #     boton.clicked.connect(self.borrarUsuario)
+    #
+    #     self.tableWidget.blockSignals(True)
+    #
+    #     self.tableWidget.insertRow( filasTabla )
+    #     self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(idUsuario)))
+    #     self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit.text()))
+    #     self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_2.text()))
+    #     self.tableWidget.setCellWidget( filasTabla, 3, boton)
+    #
+    #     self.tableWidget.blockSignals(False)
+    #     self.lineEdit.clear()
+    #     self.lineEdit_2.clear()
+    #     print("termina")
+
     def setupUi(self, productosForm,usuarioActual):
         productosForm.setObjectName("productosForm")
         productosForm.resize(600, 498)

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>historicoVentas</class>
+ <widget class="QWidget" name="historicoVentas">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>894</width>
+    <height>659</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>894</width>
+    <height>659</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>894</width>
+    <height>659</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Historico Ventas</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>50</y>
+     <width>821</width>
+     <height>491</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>id</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>id cliente</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>id usuario</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>fecha</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>total</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>total iva desc</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>medio de pago</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
