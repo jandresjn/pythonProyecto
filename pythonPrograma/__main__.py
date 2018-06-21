@@ -10,10 +10,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from interfaces.interfazPrincipal import *
 import sqlite3
 from paquetePrincipal.Usuario import Usuario
+from paquetePrincipal.Producto import Producto
 
 class Ui_Dialog(object):
 
     def setupUi(self, Dialog):
+        # p1=Producto(codigo="C001")
+        # p1.actualizarInfoProducto()
         self.usuarioActual=Usuario()
         Dialog.setObjectName("Dialog")
         Dialog.resize(294, 134)
@@ -102,6 +105,7 @@ class Ui_Dialog(object):
             self.ui.setupUi(self.window,self.usuarioActual)
             self.window.show()
             Dialog.close()
+            
         else:
             self.label_3.setText("Nombre o contraseña errada")
 

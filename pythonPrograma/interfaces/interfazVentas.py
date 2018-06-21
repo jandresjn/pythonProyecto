@@ -10,30 +10,89 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from paquetePrincipal.BaseDatos import BaseDatos
 from paquetePrincipal.Cliente import Cliente
+from paquetePrincipal.Venta import Venta
+from paquetePrincipal.Producto import Producto
+from datetime import datetime
+
 import sqlite3
 class Ui_ventasObject(object):
+    def agregarItem(self):
+        if (len(self.ventaActual.items_venta)) != 0 and (len(self.ventaActual.items_venta)-1)==self.cantidadItems:
+            self.ventaActual.items_venta[self.cantidadItems].iva=float(self.spinBox_IVA.value())/100
+            print(self.ventaActual.items_venta[self.cantidadItems].iva)
+            self.ventaActual.items_venta[self.cantidadItems].cantidad=int(self.spinBox_cantidadItem.value())
+            self.ventaActual.items_venta[self.cantidadItems].calcularTotales()
+            filasTabla = self.tableWidget_itemVentas.rowCount()
+            boton = QtWidgets.QPushButton()
+            boton.setText('Borrar')
 
+            self.tableWidget_itemVentas.blockSignals(True)
+
+            self.tableWidget_itemVentas.insertRow( filasTabla )
+            self.tableWidget_itemVentas.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(self.ventaActual.items_venta[self.cantidadItems].codigo)))
+            self.tableWidget_itemVentas.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(str(self.ventaActual.items_venta[self.cantidadItems].categoria)))
+            self.tableWidget_itemVentas.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(str(self.ventaActual.items_venta[self.cantidadItems].precio)))
+            self.tableWidget_itemVentas.setItem( filasTabla, 3, QtWidgets.QTableWidgetItem(str(self.ventaActual.items_venta[self.cantidadItems].cantidad)))
+            self.tableWidget_itemVentas.setItem( filasTabla, 4, QtWidgets.QTableWidgetItem(str(self.ventaActual.items_venta[self.cantidadItems].iva)))
+            self.tableWidget_itemVentas.setItem( filasTabla, 5, QtWidgets.QTableWidgetItem(str(self.ventaActual.items_venta[self.cantidadItems].totalSinIva)))
+            self.tableWidget_itemVentas.setItem( filasTabla, 6, QtWidgets.QTableWidgetItem(str(self.ventaActual.items_venta[self.cantidadItems].totalConIva)))
+
+
+            self.tableWidget_itemVentas.setCellWidget( filasTabla, 7, boton)
+
+            self.tableWidget_itemVentas.blockSignals(False)
+            self.cantidadItems+=1
+        else:
+            self.label_errorCodigo.setText("NO SE PUEDE AÑADIR")
+
+
+    def buscarInfoCodigo(self):
+        tabla="productos"
+        campos=["codigo"]
+        tipoCampos=[-1]
+        if self.lineEdit_codigo_Item.text() != "":
+            id_producto=self.bd.buscarValorCampo(tabla,campos,tipoCampos,[self.lineEdit_codigo_Item.text()])
+            if id_producto is not None:
+                self.ventaActual.items_venta.append(Producto(id=id_producto,codigo=self.lineEdit_codigo_Item.text()))
+                self.ventaActual.items_venta[self.cantidadItems].actualizarInfoProducto()
+                self.lineEdit_mostrarDescripcionItem.setText(str(self.ventaActual.items_venta[self.cantidadItems].descripcion))
+                self.lineEdit_mostrarPrecioUnitario.setText(str(self.ventaActual.items_venta[self.cantidadItems].precio))
+                self.lineEdit_mostrarInventarioDisp.setText(str(self.ventaActual.items_venta[self.cantidadItems].inventario))
+                self.lineEdit_mostrarCategoria.setText(str(self.ventaActual.items_venta[self.cantidadItems].categoria))
+                self.label_errorCodigo.setText("ITEM ENCONTRADO")
+
+            else:
+                # self.clearInfoProductoBase():
+                self.label_errorCodigo.setText("ITEM NO ENCONTRADO")
+
+
+    def clearInfoProductoBase(self):
+        self.lineEdit_mostrarDescripcionItem.clear()
+        self.lineEdit_mostrarPrecioUnitario.clear()
+        self.lineEdit_mostrarInventarioDisp.clear()
+        self.lineEdit_mostrarCategoria.clear()
     def buscarItem(self):
         tabla="productos"
-        campos=["descripcion","codigo"]
+        campos=["codigo","descripcion"]
         valorCampos=[]
-        valorCampos=[self.lineEdit_descripcion_buscar.text(),self.lineEdit_codigo_buscar.text()]
+        valorCampos=[self.lineEdit_codigo_buscar.text(),self.lineEdit_descripcion_buscar.text()]
         print(valorCampos)
         if (valorCampos[0] or valorCampos[1])  != "" :
             if valorCampos[0] == "":
                 valorCampos[0]=" "
             elif valorCampos[1] == "":
-                valorCampos[1]=" "
+                valorCampos[1]="0"
 
             rows=self.bd.buscarDatosLike(tabla,campos,valorCampos)
             self.listWidget_buscarItems.clear()
-            self.listWidget_buscarItems.addItem("(id, codigo, descripcion, precio, categoria)")
+            self.listWidget_buscarItems.addItem("(id, codigo, descripcion, precio, inv, categoria)")
             for row in rows :
                 self.listWidget_buscarItems.addItem(str(row))
 
     def vincularCliente(self):
         existeCliente=self.clienteActual.buscarClienteDoc(self.lineEdit_clienteActivo.text())
         if existeCliente:
+            self.ventaActual.id=self.clienteActual.id
             palette = QtGui.QPalette()
             brush = QtGui.QBrush(QtGui.QColor(0, 170, 0))
             brush.setStyle(QtCore.Qt.SolidPattern)
@@ -57,13 +116,36 @@ class Ui_ventasObject(object):
         self.pushButton_confirmarVenta.setEnabled(False)
         self.lineEdit_clienteActivo.setEnabled(True)
         self.pushButton_vincularCliente.setEnabled(True)
+        self.lineEdit_codigo_Item.setEnabled(False)
+        self.label_codigo_item.setEnabled(False)
+        self.ventaActual.id=None
+        self.ventaActual.id_cliente=None
+        self.lineEdit_clienteActivo.clear()
+        self.label_mostrar_nombreClienteActivo.clear()
+        self.lineEdit_codigo_Item.clear()
+        self.borrarTabla()
+        self.cantidadItems=0
+        self.clearInfoProductoBase()
+    def borrarTabla(self):
+        for i in range(self.tableWidget_itemVentas.rowCount()):
+            self.tableWidget_itemVentas.removeRow(i)
+
+
     def habilitarBotonesPrincipales(self):
         self.pushButton_agregarItemVenta.setEnabled(True)
         self.pushButton_confirmarVenta.setEnabled(True)
+        self.lineEdit_codigo_Item.setEnabled(True)
+        self.label_codigo_item.setEnabled(True)
+    def setupUi(self, ventasObject,usuarioActual):
 
-    def setupUi(self, ventasObject):
+        self.cantidadItems=0
         self.bd=BaseDatos()
         self.clienteActual=Cliente()
+        self.ventaActual=Venta()
+        now = datetime.now()
+        self.ventaActual.date=str(now.year)+"/"+str(now.month)+"/"+str(now.day)
+        print(self.ventaActual.date)
+
         ventasObject.setObjectName("ventasObject")
         ventasObject.resize(800, 600)
         ventasObject.setMinimumSize(QtCore.QSize(800, 600))
@@ -75,6 +157,12 @@ class Ui_ventasObject(object):
         self.label_ClienteActivo = QtWidgets.QLabel(ventasObject)
         self.label_ClienteActivo.setGeometry(QtCore.QRect(660, 0, 91, 31))
         self.label_ClienteActivo.setObjectName("label_ClienteActivo")
+
+        self.label_usuarioActivo = QtWidgets.QLabel(ventasObject)
+        self.label_usuarioActivo.setGeometry(QtCore.QRect(10, 10,181, 21))
+        self.label_usuarioActivo.setObjectName("label_ClienteActivo")
+        self.label_usuarioActivo.setText("Usuario: "+str(usuarioActual.nombreUsuario))
+
         self.label_id_clienteActivo = QtWidgets.QLabel(ventasObject)
         self.label_id_clienteActivo.setGeometry(QtCore.QRect(610, 30, 21, 21))
         self.label_id_clienteActivo.setObjectName("label_id_clienteActivo")
@@ -154,12 +242,14 @@ class Ui_ventasObject(object):
         self.label_descripcion = QtWidgets.QLabel(ventasObject)
         self.label_descripcion.setGeometry(QtCore.QRect(60, 280, 91, 16))
         self.label_descripcion.setObjectName("label_descripcion")
-        self.label_descripcion_buscar = QtWidgets.QLabel(ventasObject)
-        self.label_descripcion_buscar.setGeometry(QtCore.QRect(80, 40, 81, 16))
-        self.label_descripcion_buscar.setObjectName("label_descripcion_buscar")
+
+
         self.label_codigo_buscar = QtWidgets.QLabel(ventasObject)
-        self.label_codigo_buscar.setGeometry(QtCore.QRect(210, 40, 57, 14))
+        self.label_codigo_buscar.setGeometry(QtCore.QRect(80, 40, 81, 16))
         self.label_codigo_buscar.setObjectName("label_codigo_buscar")
+        self.label_descripcion_buscar = QtWidgets.QLabel(ventasObject)
+        self.label_descripcion_buscar.setGeometry(QtCore.QRect(200, 40, 57, 14))
+        self.label_descripcion_buscar.setObjectName("label_descripcion_buscar")
         self.spinBox_cantidadItem = QtWidgets.QSpinBox(ventasObject)
         self.spinBox_cantidadItem.setGeometry(QtCore.QRect(490, 300, 41, 24))
         self.spinBox_cantidadItem.setProperty("value", 1)
@@ -227,12 +317,12 @@ class Ui_ventasObject(object):
         self.comboBox_item_medioPago.setObjectName("comboBox_item_medioPago")
         self.comboBox_item_medioPago.addItem("")
         self.comboBox_item_medioPago.addItem("")
-        self.lineEdit_descripcion_buscar = QtWidgets.QLineEdit(ventasObject)
-        self.lineEdit_descripcion_buscar.setGeometry(QtCore.QRect(60, 60, 113, 26))
-        self.lineEdit_descripcion_buscar.setObjectName("lineEdit_descripcion_buscar")
         self.lineEdit_codigo_buscar = QtWidgets.QLineEdit(ventasObject)
-        self.lineEdit_codigo_buscar.setGeometry(QtCore.QRect(180, 60, 113, 26))
+        self.lineEdit_codigo_buscar.setGeometry(QtCore.QRect(60, 60, 113, 26))
         self.lineEdit_codigo_buscar.setObjectName("lineEdit_codigo_buscar")
+        self.lineEdit_descripcion_buscar = QtWidgets.QLineEdit(ventasObject)
+        self.lineEdit_descripcion_buscar.setGeometry(QtCore.QRect(180, 60, 113, 26))
+        self.lineEdit_descripcion_buscar.setObjectName("lineEdit_descripcion_buscar")
         self.label_errorCodigo = QtWidgets.QLabel(ventasObject)
         self.label_errorCodigo.setGeometry(QtCore.QRect(30, 560, 201, 16))
         palette = QtGui.QPalette()
@@ -275,6 +365,8 @@ class Ui_ventasObject(object):
         self.pushButton_cancelarVenta.clicked.connect(self.deshabilitarBotonesPrincipales)
         self.pushButton_vincularCliente.clicked.connect(self.vincularCliente)
         self.pushButton_buscar.clicked.connect(self.buscarItem)
+        self.lineEdit_codigo_Item.returnPressed.connect(self.buscarInfoCodigo)
+        self.pushButton_agregarItemVenta.clicked.connect(self.agregarItem)
         self.retranslateUi(ventasObject)
         QtCore.QMetaObject.connectSlotsByName(ventasObject)
 
@@ -312,8 +404,8 @@ class Ui_ventasObject(object):
         self.pushButton_agregarItemVenta.setText(_translate("ventasObject", "Agregar Item"))
         self.label_codigo_item.setText(_translate("ventasObject", "Codigo* "))
         self.label_descripcion.setText(_translate("ventasObject", "Descripcion"))
-        self.label_descripcion_buscar.setText(_translate("ventasObject", "Descripcion"))
         self.label_codigo_buscar.setText(_translate("ventasObject", "Codigo"))
+        self.label_descripcion_buscar.setText(_translate("ventasObject", "Descripcion"))
         # self.comboBox_categoria_buscar.setItemText(0, _translate("ventasObject", "Frutas"))
         # self.comboBox_categoria_buscar.setItemText(1, _translate("ventasObject", "Carnes"))
         self.label_categoria_buscar.setText(_translate("ventasObject", "Categorias"))

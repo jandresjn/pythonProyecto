@@ -35,6 +35,7 @@ class BaseDatos:
         rows = self.cursor.fetchall()
         return rows
 
+
     def borrarValorCampo(self,tabla,id):
         sql="UPDATE "+ str(tabla) + " SET activo=0 WHERE _rowid_=?"
         self.cursor.execute(sql, [ (id) ] )
@@ -86,6 +87,26 @@ class BaseDatos:
         id = self.cursor.lastrowid
         return id
 
+    def buscarValorCamposGeneral(self,tabla,camposSelect,camposWhere,tipoCamposWhere,valorCamposWhere):
+        id=None
+        sql="SELECT "+str(camposSelect[0])
+        sql2=" FROM " + str(tabla) + " where "
+
+        sql3 = str(camposWhere[0])+"="+str(self.identificaValor(tipoCamposWhere[0]))
+        if (len(camposWhere) > 1):
+            for index in range(len(camposWhere)-1):
+                sql3 += " and "+ str(camposWhere[index+1])+"="+str(self.identificaValor(tipoCamposWhere[index+1]))
+        if (len(camposSelect) > 1):
+            for index in range(len(camposSelect)-1):
+                sql += ", "+ str(camposSelect[index+1])
+        sql+=sql2+sql3
+        # sql+=sql2
+        print(sql)
+
+        self.cursor.execute(sql, valorCamposWhere)
+        row=self.cursor.fetchone()
+        print(row)
+        return row
 
 
     def buscarValorCampo(self,tabla,campos,tipoCampos,valorCampos):

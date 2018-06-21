@@ -9,7 +9,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from interfaces.usuariosInterfaz import *
 from interfaces.interfazProductos import *
-from interfaces.interfazServicios import *
 from interfaces.interfazClientes import *
 from interfaces.interfazVentas import *
 
@@ -17,7 +16,7 @@ class Ui_MainWindow(object):
 
     def openWindow(self,new_Window,MainWindow):
         self.window = QtWidgets.QWidget()
-        new_Window.setupUi(self.window)
+        new_Window.setupUi(self.window,self.usuarioActual)
         # MainWindow.hide()
         self.window.show()
 
@@ -54,13 +53,13 @@ class Ui_MainWindow(object):
         # Se agrega la función de abrir ventana cuando se presiona el botón de usuarios...
         self.clientesInterfaz= Ui_clientesForm()
         self.boton_clientes.clicked.connect(lambda: self.openWindow(self.clientesInterfaz,MainWindow))
-        self.boton_servicios = QtWidgets.QPushButton(self.centralwidget)
-        self.boton_servicios.setObjectName("boton_servicios")
-        self.verticalLayout.addWidget(self.boton_servicios)
+        # self.boton_servicios = QtWidgets.QPushButton(self.centralwidget)
+        # self.boton_servicios.setObjectName("boton_servicios")
+        # self.verticalLayout.addWidget(self.boton_servicios)
         self.verticalLayout_2.addLayout(self.verticalLayout)
         # Se agrega la función de abrir ventana cuando se presiona el botón de usuarios...
-        self.serviciosInterfaz= Ui_serviciosForm()
-        self.boton_servicios.clicked.connect(lambda: self.openWindow(self.serviciosInterfaz,MainWindow))
+        # self.serviciosInterfaz= Ui_serviciosForm()
+        # self.boton_servicios.clicked.connect(lambda: self.openWindow(self.serviciosInterfaz,MainWindow))
 
         # Se agrega botón Ventas y función abrir ventana...
         self.boton_ventas = QtWidgets.QPushButton(self.centralwidget)
@@ -83,12 +82,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Menú Principal"))
+        MainWindow.setWindowTitle(_translate("MainWindow ", "Menú Principal"))
         if (self.usuarioActual.id==1):
             self.boton_usuarios.setText(_translate("MainWindow", "Usuarios"))
         self.boton_productos.setText(_translate("MainWindow", "Productos"))
         self.boton_clientes.setText(_translate("MainWindow", "Clientes"))
-        self.boton_servicios.setText(_translate("MainWindow", "Servicios"))
+        # self.boton_servicios.setText(_translate("MainWindow", "Servicios"))
         self.boton_ventas.setText(_translate("MainWindow", "Ventas"))
 
 

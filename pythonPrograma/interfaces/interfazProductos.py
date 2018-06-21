@@ -9,7 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_productosForm(object):
-    def setupUi(self, productosForm):
+    def setupUi(self, productosForm,usuarioActual):
         productosForm.setObjectName("productosForm")
         productosForm.resize(600, 498)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
@@ -161,4 +161,3 @@ if __name__ == "__main__":
     ui.setupUi(productosForm)
     productosForm.show()
     sys.exit(app.exec_())
-

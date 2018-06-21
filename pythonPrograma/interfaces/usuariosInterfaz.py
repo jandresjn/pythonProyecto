@@ -92,8 +92,7 @@ class Ui_Form(object):
             self.tableWidget.setCellWidget(inx, 3, self.arregloBotones[int(inx)])
             self.arregloBotones[inx].clicked.connect(self.borrarUsuario)
 
-
-    def setupUi(self, Form):
+    def setupUi(self, Form,usuarioActualConectado):
         self.bd=BaseDatos()
         print("setupUi")
         Form.setObjectName("Form")

@@ -73,7 +73,7 @@ class Ui_clientesForm(object):
             self.tableWidget.setCellWidget(inx, 3, self.arregloBotones[int(inx)])
             self.arregloBotones[inx].clicked.connect(self.borrarCliente)
 
-    def setupUi(self, clientesForm):
+    def setupUi(self, clientesForm,usuarioActual):
         self.bd=BaseDatos()
         clientesForm.setObjectName("clientesForm")
         clientesForm.resize(500, 526)
