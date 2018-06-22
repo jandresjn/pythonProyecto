@@ -12,7 +12,9 @@ from interfaces.interfazProductosNew import *
 from interfaces.interfazClientes import *
 from interfaces.interfazProveedores import *
 from interfaces.interfazVentas import *
+from interfaces.interfazCompras import *
 from interfaces.interfazHistoricoVentas import *
+from interfaces.interfazHistoricoCompras import *
 
 class Ui_MainWindow(object):
 
@@ -71,10 +73,14 @@ class Ui_MainWindow(object):
         self.boton_compras = QtWidgets.QPushButton(self.centralwidget)
         self.boton_compras.setObjectName("boton_compras")
         self.verticalLayout.addWidget(self.boton_compras)
+        self.comprasInterfaz= Ui_comprasObject()
+        self.boton_compras.clicked.connect(lambda: self.openWindow(self.comprasInterfaz,MainWindow))
 
         self.boton_historicoCompras = QtWidgets.QPushButton(self.centralwidget)
         self.boton_historicoCompras.setObjectName("boton_historicoCompras")
         self.verticalLayout.addWidget(self.boton_historicoCompras)
+        self.hComprasInterfaz=Ui_historicoCompras()
+        self.boton_historicoCompras.clicked.connect(lambda: self.openWindow(self.hComprasInterfaz,MainWindow))
 
         self.boton_ventas = QtWidgets.QPushButton(self.centralwidget)
         self.boton_ventas.setObjectName("boton_ventas")

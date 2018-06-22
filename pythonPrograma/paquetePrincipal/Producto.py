@@ -71,6 +71,15 @@ class Producto:
         valorCampos=[int(inventarioAct),self.id]
         self.bd.actualizarValorCampo(tabla,campos,valorCampos)
 
+    def actualizarInventarioVenta2(self):
+        tabla="productos"
+        campos=["inventario"]
+        inventarioAct=self.inventario+self.cantidad
+        print("inventarioAct: "+str(inventarioAct))
+        print("id producto: "+str(self.id))
+        valorCampos=[int(inventarioAct),self.id]
+        self.bd.actualizarValorCampo(tabla,campos,valorCampos)
+
     def calcularTotales(self):
         self.totalSinIva=self.precio*self.cantidad
         self.totalConIva=self.totalSinIva*(1+self.iva)
