@@ -493,7 +493,7 @@ class Ui_comprasObject(object):
         self.label_ClienteActivo.setText(_translate("ventasObject", "Cliente Proveedor:"))
         self.label_id_clienteActivo.setText(_translate("ventasObject", "Id: "))
         self.label_nombre_clienteActivo.setText(_translate("ventasObject", "Nombre: "))
-        self.label_errorClienteActivo.setText(_translate("ventasObject", "VINCULE CLIENTE EXISTENTE"))
+        self.label_errorClienteActivo.setText(_translate("ventasObject", "VINCULE PROVEEDOR EXISTENTE"))
         self.label_buscadorItems.setText(_translate("ventasObject", "Buscador de items:"))
         __sortingEnabled = self.listWidget_buscarItems.isSortingEnabled()
         self.listWidget_buscarItems.setSortingEnabled(False)
