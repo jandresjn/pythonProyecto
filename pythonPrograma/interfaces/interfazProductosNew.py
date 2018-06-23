@@ -13,7 +13,7 @@ from paquetePrincipal.Cliente import Cliente
 from paquetePrincipal.Venta import Venta
 from paquetePrincipal.Producto import Producto
 from datetime import datetime
-
+import sqlite3
 class Ui_interfazProductosNew(object):
     def borrarProducto(self):
         print("borrarProducto")
@@ -57,32 +57,50 @@ class Ui_interfazProductosNew(object):
         self.lineEdit_Precio.clear()
 
     def crearProducto(self):
-        idCategoria=self.identificaCategoria()
-        nuevoProducto=Producto(codigo=self.lineEdit_Codigo.text(),precio=self.lineEdit_Precio.text(),descripcion=self.lineEdit_descripcion.text(),inventario=self.spinBox_invInit.value(),id_categoria=idCategoria)
-        nuevoProducto.crearProducto()
-        idProducto=nuevoProducto.id
+        try:
+            idCategoria=self.identificaCategoria()
+            cod=None
+            desc=None
+            precioAct=None
+            if self.lineEdit_Codigo.text() != "" or self.lineEdit_Codigo.text() != "" or self.lineEdit_Codigo.text() != "":
+                cod=self.lineEdit_Codigo.text()
+                desc=self.lineEdit_descripcion.text()
+                precioAct=float(self.lineEdit_Precio.text())
+            nuevoProducto=Producto(codigo=cod,precio=precioAct,descripcion=desc,inventario=self.spinBox_invInit.value(),id_categoria=idCategoria)
+            nuevoProducto.crearProducto()
+            idProducto=nuevoProducto.id
 
-        filasTabla = self.tableWidget.rowCount()
+            filasTabla = self.tableWidget.rowCount()
 
-        boton = QtWidgets.QPushButton()
-        boton.setText('Borrar')
-        boton.clicked.connect(self.borrarProducto)
+            boton = QtWidgets.QPushButton()
+            boton.setText('Borrar')
+            boton.clicked.connect(self.borrarProducto)
 
-        self.tableWidget.blockSignals(True)
+            self.tableWidget.blockSignals(True)
 
-        self.tableWidget.insertRow( filasTabla )
-        self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(idProducto)))
-        self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit_Codigo.text()))
-        self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_descripcion.text()))
-        self.tableWidget.setItem( filasTabla, 3, QtWidgets.QTableWidgetItem(self.lineEdit_Precio.text()))
-        self.tableWidget.setItem( filasTabla, 4, QtWidgets.QTableWidgetItem(str(nuevoProducto.inventario)))
-        self.tableWidget.setItem( filasTabla, 5, QtWidgets.QTableWidgetItem(self.comboBox_categoria.currentText()))
+            self.tableWidget.insertRow( filasTabla )
+            self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(idProducto)))
+            self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit_Codigo.text()))
+            self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_descripcion.text()))
+            self.tableWidget.setItem( filasTabla, 3, QtWidgets.QTableWidgetItem(self.lineEdit_Precio.text()))
+            self.tableWidget.setItem( filasTabla, 4, QtWidgets.QTableWidgetItem(str(nuevoProducto.inventario)))
+            self.tableWidget.setItem( filasTabla, 5, QtWidgets.QTableWidgetItem(self.comboBox_categoria.currentText()))
 
-        self.tableWidget.setCellWidget( filasTabla, 6, boton)
+            self.tableWidget.setCellWidget( filasTabla, 6, boton)
 
-        self.tableWidget.blockSignals(False)
-        self.resetear()
-        print("termina")
+            self.tableWidget.blockSignals(False)
+            self.resetear()
+            print("termina")
+            self.label_4.setText("")
+
+        except ValueError:
+            print("Oops!  That was no valid number.  Try again...")
+            self.label_4.setText("Error: Use sólo números")
+            return False
+        except sqlite3.IntegrityError:
+            print(" Ref Producto Repedito o Nulo")
+            self.label_4.setText("Error: Usuario Repedito o Nulo")
+            return False
 
     def cargarDatosProductos(self):
         tablas="productos"
@@ -166,6 +184,9 @@ class Ui_interfazProductosNew(object):
         sizePolicy.setHeightForWidth(self.laberl_descripcion.sizePolicy().hasHeightForWidth())
         self.laberl_descripcion.setSizePolicy(sizePolicy)
         self.laberl_descripcion.setObjectName("laberl_descripcion")
+        self.label_4 = QtWidgets.QLabel(interfazProductosNew)
+        self.label_4.setGeometry(QtCore.QRect(290, 150, 211, 16))
+        self.label_4.setObjectName("label_4")
         self.lineEdit_Precio = QtWidgets.QLineEdit(interfazProductosNew)
         self.lineEdit_Precio.setGeometry(QtCore.QRect(350, 30, 118, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)

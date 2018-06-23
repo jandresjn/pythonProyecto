@@ -16,28 +16,44 @@ class Ui_ProveedoresForm(object):
 
 
     def crearProveedor(self):
-        nuevoProveedor=Proveedor(None,self.lineEdit_Nombre.text(),self.lineEdit_Documento.text())
-        nuevoProveedor.crearProveedor()
-        idProveedor=nuevoProveedor.id
+        try:
+            doc = int(self.lineEdit_Documento.text())
+            nombre=None
+            if self.lineEdit_Nombre.text() != "":
+                nombre=self.lineEdit_Nombre.text()
+            nuevoProveedor=Proveedor(None,nombre,doc)
+            nuevoProveedor.crearProveedor()
+            idProveedor=nuevoProveedor.id
 
-        filasTabla = self.tableWidget.rowCount()
+            filasTabla = self.tableWidget.rowCount()
 
-        boton = QtWidgets.QPushButton()
-        boton.setText('Borrar')
-        boton.clicked.connect(self.borrarProveedor)
+            boton = QtWidgets.QPushButton()
+            boton.setText('Borrar')
+            boton.clicked.connect(self.borrarProveedor)
 
-        self.tableWidget.blockSignals(True)
+            self.tableWidget.blockSignals(True)
 
-        self.tableWidget.insertRow( filasTabla )
-        self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(idProveedor)))
-        self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit_Nombre.text()))
-        self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_Documento.text()))
-        self.tableWidget.setCellWidget( filasTabla, 3, boton)
+            self.tableWidget.insertRow( filasTabla )
+            self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(idProveedor)))
+            self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit_Nombre.text()))
+            self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_Documento.text()))
+            self.tableWidget.setCellWidget( filasTabla, 3, boton)
 
-        self.tableWidget.blockSignals(False)
-        self.lineEdit_Nombre.clear()
-        self.lineEdit_Documento.clear()
-        print("termina")
+            self.tableWidget.blockSignals(False)
+            self.lineEdit_Nombre.clear()
+            self.lineEdit_Documento.clear()
+            print("termina")
+            self.label_4.setText("")
+
+        except ValueError:
+            print("Oops!  That was no valid number.  Try again...")
+            self.label_4.setText("Error: Use sólo números")
+            return False
+        except sqlite3.IntegrityError:
+            print("usuario Repedito o Nulo")
+            self.label_4.setText("Error: Usuario Repedito o Nulo")
+            return False
+
 
     def borrarProveedor(self):
         print("BorrarProveedor")
@@ -109,6 +125,9 @@ class Ui_ProveedoresForm(object):
         self.label_3 = QtWidgets.QLabel(proveedorForm)
         self.label_3.setObjectName("label_3")
         self.verticalLayout_2.addWidget(self.label_3)
+        self.label_4 = QtWidgets.QLabel(proveedorForm)
+        self.label_4.setGeometry(QtCore.QRect(280, 80, 211, 16))
+        self.label_4.setObjectName("label_4")
         self.lineEdit_Documento = QtWidgets.QLineEdit(proveedorForm)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)

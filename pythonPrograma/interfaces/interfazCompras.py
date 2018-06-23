@@ -41,7 +41,8 @@ class Ui_comprasObject(object):
         self.lineEdit_mostrarTotalConDesc.setText(str(self.ventaActual.iva_total_desc))
 
     def agregarItem(self):
-        if (len(self.ventaActual.items_venta)) != 0 and (len(self.ventaActual.items_venta)-1)==self.cantidadItems:
+        self.ventaActual.items_venta.append(self.itemVenta)
+        if (len(self.ventaActual.items_venta)) != 0 and ((len(self.ventaActual.items_venta)-1)==self.cantidadItems) and self.ventaActual.items_venta[-1] is not None:
             self.ventaActual.items_venta[self.cantidadItems].iva=float(self.spinBox_IVA.value())/100
             print(self.ventaActual.items_venta[self.cantidadItems].iva)
             self.ventaActual.items_venta[self.cantidadItems].cantidad=int(self.spinBox_cantidadItem.value())
@@ -80,13 +81,16 @@ class Ui_comprasObject(object):
         if self.lineEdit_codigo_Item.text() != "":
             id_producto=self.bd.buscarValorCampo(tabla,campos,tipoCampos,[self.lineEdit_codigo_Item.text()])
             if id_producto is not None:
-                self.ventaActual.items_venta.append(Producto(id=id_producto,codigo=self.lineEdit_codigo_Item.text()))
-                self.ventaActual.items_venta[self.cantidadItems].actualizarInfoProducto()
-                self.lineEdit_mostrarDescripcionItem.setText(str(self.ventaActual.items_venta[self.cantidadItems].descripcion))
-                self.lineEdit_mostrarPrecioUnitario.setText(str(self.ventaActual.items_venta[self.cantidadItems].precio))
-                self.lineEdit_mostrarInventarioDisp.setText(str(self.ventaActual.items_venta[self.cantidadItems].inventario))
-                self.lineEdit_mostrarCategoria.setText(str(self.ventaActual.items_venta[self.cantidadItems].categoria))
-                # self.spinBox_cantidadItem.setMaximum(self.ventaActual.items_venta[self.cantidadItems].inventario)
+                self.itemVenta=Producto(id=id_producto,codigo=self.lineEdit_codigo_Item.text())
+                self.itemVenta.actualizarInfoProducto()
+                # self.ventaActual.items_venta.append(Producto(id=id_producto,codigo=self.lineEdit_codigo_Item.text()))
+                # self.ventaActual.items_venta[self.cantidadItems].actualizarInfoProducto()
+                self.lineEdit_mostrarDescripcionItem.setText(str(self.itemVenta.descripcion))
+                self.lineEdit_mostrarPrecioUnitario.setText(str(self.itemVenta.precio))
+                self.lineEdit_mostrarInventarioDisp.setText(str(self.itemVenta.inventario))
+                self.lineEdit_mostrarCategoria.setText(str(self.itemVenta.categoria))
+                if self.itemVenta.inventario != 0:
+                    self.spinBox_cantidadItem.setMaximum(self.itemVenta.inventario)
                 self.label_errorCodigo.setText("ITEM ENCONTRADO")
 
             else:

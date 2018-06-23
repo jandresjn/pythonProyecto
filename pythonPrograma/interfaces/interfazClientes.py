@@ -16,28 +16,43 @@ class Ui_clientesForm(object):
 
 
     def crearCliente(self):
-        nuevoCliente=Cliente(None,self.lineEdit_Nombre.text(),self.lineEdit_Documento.text())
-        nuevoCliente.crearCliente()
-        idCliente=nuevoCliente.id
 
-        filasTabla = self.tableWidget.rowCount()
+        try:
+            doc = int(self.lineEdit_Documento.text())
+            nombre=None
+            if self.lineEdit_Nombre.text() != "":
+                nombre=self.lineEdit_Nombre.text()
+            nuevoCliente=Cliente(None,nombre,doc)
+            nuevoCliente.crearCliente()
+            idCliente=nuevoCliente.id
 
-        boton = QtWidgets.QPushButton()
-        boton.setText('Borrar')
-        boton.clicked.connect(self.borrarCliente)
+            filasTabla = self.tableWidget.rowCount()
 
-        self.tableWidget.blockSignals(True)
+            boton = QtWidgets.QPushButton()
+            boton.setText('Borrar')
+            boton.clicked.connect(self.borrarCliente)
 
-        self.tableWidget.insertRow( filasTabla )
-        self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(idCliente)))
-        self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit_Nombre.text()))
-        self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_Documento.text()))
-        self.tableWidget.setCellWidget( filasTabla, 3, boton)
+            self.tableWidget.blockSignals(True)
 
-        self.tableWidget.blockSignals(False)
-        self.lineEdit_Nombre.clear()
-        self.lineEdit_Documento.clear()
-        print("termina")
+            self.tableWidget.insertRow( filasTabla )
+            self.tableWidget.setItem( filasTabla, 0, QtWidgets.QTableWidgetItem(str(idCliente)))
+            self.tableWidget.setItem( filasTabla, 1, QtWidgets.QTableWidgetItem(self.lineEdit_Nombre.text()))
+            self.tableWidget.setItem( filasTabla, 2, QtWidgets.QTableWidgetItem(self.lineEdit_Documento.text()))
+            self.tableWidget.setCellWidget( filasTabla, 3, boton)
+
+            self.tableWidget.blockSignals(False)
+            self.lineEdit_Nombre.clear()
+            self.lineEdit_Documento.clear()
+            print("termina")
+            self.label_4.setText("")
+        except ValueError:
+            print("Oops!  That was no valid number.  Try again...")
+            self.label_4.setText("Error: Use sólo números")
+            return False
+        except sqlite3.IntegrityError:
+            print("usuario Repedito o Nulo")
+            self.label_4.setText("Error: Usuario Repedito o Nulo")
+            return False
 
     def borrarCliente(self):
         print("borrarCliente")
@@ -128,6 +143,10 @@ class Ui_clientesForm(object):
         self.btnAdd.setSizePolicy(sizePolicy)
         self.btnAdd.setObjectName("btnAdd")
         self.verticalLayout.addWidget(self.btnAdd)
+        self.label_4 = QtWidgets.QLabel(clientesForm)
+        self.label_4.setGeometry(QtCore.QRect(280, 80, 211, 16))
+        self.label_4.setObjectName("label_4")
+        # self.verticalLayout.addWidget(self.label_4)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
         self.tableWidget = QtWidgets.QTableWidget(clientesForm)
@@ -174,6 +193,7 @@ class Ui_clientesForm(object):
         self.label.setText(_translate("clientesForm", "Nombre"))
         self.label_3.setText(_translate("clientesForm", "Num de Documento"))
         self.btnAdd.setText(_translate("clientesForm", "Añadir"))
+        self.label_4.setText(_translate("clientesForm", ""))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("clientesForm", "Id"))
         item = self.tableWidget.horizontalHeaderItem(1)
